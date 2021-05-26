@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Katerina Rakshina](https://up.htmlacademy.ru/javascript/23/user/1161345).
-* Наставник: `Неизвестно`.
+- Студент: [Katerina Rakshina](https://up.htmlacademy.ru/javascript/23/user/1161345).
+- Наставник: `Максим Кузнецов`.
 
 ---
 
