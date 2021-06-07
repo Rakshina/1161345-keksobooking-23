@@ -1,19 +1,23 @@
-function getRandomPositiveInteger (a, b) {
+// Функция, для генерации временных географических координат;
 
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+// Функция плавующих чисел;
 
-  const result = Math.random() * (upper - lower + 1) + lower;
-
-  return Math.floor(result);
-};
-
-function getRandomPositiveFloat (a, b, digits = 1) {
-
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-
-  const result = Math.random() * (upper - lower) + lower;
-
-  return result.toFixed(digits);
+function getRandomFloat(min, max) {
+  if (min >= 0 && max >= min) {
+    return (Math.random() * (max - min) + min).toFixed(2);
+  }
+  throw new Error('Некорректное число');
 }
+
+getRandomFloat(9, 110);
+
+// Функция целых чисел;
+
+function getRandomInteger(min, max) {
+  if (min >= 0 && max >= min) {
+    return Math.round(Math.random() * (max - min)) + min;
+  }
+  throw new Error('Некорректное число');
+}
+
+getRandomInteger(9, 110);
