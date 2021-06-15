@@ -1,1 +1,3 @@
-import './util.js';
+import {similarAdvertisement} from './data.js';
+
+similarAdvertisement.slice();
