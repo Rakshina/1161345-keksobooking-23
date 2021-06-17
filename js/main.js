@@ -1,3 +1,4 @@
-import {similarAdvertisement} from './data.js';
+//import {similarOffers} from './data.js';
+import {similarOffers} from './similar-offers-list';
 
-similarAdvertisement.slice();
+similarOffers.slice();
