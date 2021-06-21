@@ -63,13 +63,13 @@ createOffers.forEach(
     photosBlock.removeChild(photoElement);
     for (let index = 0; index < photos.length; index++) {
       const photoNewElement = photoElement.cloneNode(true);
-      photoNewElement.src = createOffers.offer.photos[index];
+      photoNewElement.src = photos[index];
       fragment.appendChild(photoNewElement);
     }
     photosBlock.appendChild(fragment);
 
     // Проверяем, если не хватает данных, например, отсутствует описание, то скрываем блок
-    if (createOffers .offer.description === '') {
+    if ( descriptions === '') {
       offerElement.querySelector('.popup__description').classList.add('hidden');
     }
 
