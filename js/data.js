@@ -4,7 +4,7 @@ import {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
   getRandomArrayElement
-} from '.util.js';
+} from './util.js';
 
 // Фиксированные значения
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];

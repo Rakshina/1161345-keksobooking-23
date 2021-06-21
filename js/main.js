@@ -1,5 +1,3 @@
-import {similarOffers} from './data.js';
-import { createOffers } from './similar-offers-list';
+import './similar-offers-list.js';
 
-similarOffers.slice();
-createOffers();
+//similarOffers.slice();

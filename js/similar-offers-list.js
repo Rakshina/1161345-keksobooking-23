@@ -2,9 +2,7 @@ import { similarOffers } from './data.js';
 
 // Модуль, который будет отвечать за генерацию разметки похожих элементов.
 const mapCanvas = document.querySelector('#map-canvas');
-const similarOfferTemplate = document
-  .querySelector('#offerElement')
-  .content.querySelector('.popup');
+const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const createOffers = similarOffers();
 
@@ -74,7 +72,5 @@ createOffers.forEach(
     }
 
     mapCanvas.appendChild(offerElement);
-  },
-);
+  });
 
-export { createOffers };
