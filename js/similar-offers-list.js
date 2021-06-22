@@ -1,12 +1,12 @@
-import { similarOffers } from './data.js';
+import { createOffers } from './data.js';
 
 // Модуль, который будет отвечать за генерацию разметки похожих элементов.
 const mapCanvas = document.querySelector('#map-canvas');
 const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const createOffers = similarOffers();
+const similarOffers =  createOffers();
 
-createOffers.forEach(
+similarOffers.forEach(
   ({
     avatar,
     title,

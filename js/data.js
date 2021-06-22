@@ -49,7 +49,7 @@ const AVATARS = [
 const SIMILAR_OFFER_COUNT = 4;
 
 // Создание массива похожих объявлений
-const creatOffers = () => {
+const creatOffer = () => {
   const COORDINATES = {
     lat: getRandomPositiveFloat(35.65, 35.7, 5),
     lng: getRandomPositiveFloat(139.7, 139.8, 5),
@@ -79,8 +79,8 @@ const creatOffers = () => {
   };
 };
 
-const similarOffers = new Array(SIMILAR_OFFER_COUNT)
+const createOffers = new Array(SIMILAR_OFFER_COUNT)
   .fill(null)
-  .map(() => creatOffers());
+  .map(() => creatOffer());
 
-export { similarOffers };
+export { createOffers };
