@@ -1,10 +1,8 @@
 import { createOffers } from './data.js';
 
-// Модуль, который будет отвечать за генерацию разметки похожих элементов.
+// Модуль, который будет отвечать за генерацию разметки похожих элементов;
 const mapCanvas = document.querySelector('#map-canvas');
-const similarOfferTemplate = document
-  .querySelector('#card')
-  .content.querySelector('.popup');
+const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const similarOffers = createOffers;
 
@@ -16,26 +14,14 @@ similarOffers.forEach((similarOffer) => {
   offerElement.querySelector('.popup__text--price').textContent = `${similarOffer.offer.price} ₽/ночь`;
   offerElement.querySelector('.popup__text--capacity').textContent = `${similarOffer.offer.rooms} комнаты для ${similarOffer.offer.guests} гостей`;
   offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarOffer.offer.checkin}, выезд до ${similarOffer.offer.checkout}`;
-  if (similarOffer.offer.type === 'palace') {
-    offerElement.querySelector('.popup__type').textContent = 'Дворец';
-  } else if (similarOffer.offer.type === 'flat') {
-    offerElement.querySelector('.popup__type').textContent = 'Квартира';
-  } else if (similarOffer.offer.type === 'bungalow') {
-    offerElement.querySelector('.popup__type').textContent = 'Бунгало';
-  } else if (similarOffer.offer.type === 'house') {
-    offerElement.querySelector('.popup__type').textContent = 'Дом';
-  } else if (similarOffer.offer.type === 'hotel') {
-    offerElement.querySelector('.popup__type').textContent = 'Отель';
-  }
-  // Вывод доступных удобств
+  offerElement.querySelector('.popup__type').textContent = similarOffer.offer.type;
+
+  // Вывод доступных удобств;
   const featuresList = offerElement.querySelector('.popup__features');
   const fragment = document.createDocumentFragment();
   // Сначала очищаем список с удобствами
-  while (featuresList.firstChild) {
-    featuresList.removeChild(featuresList.firstChild);
-  }
-  featuresList.innerHTML = '';
-  // Затем добавляем в него новые удобства
+
+  // Затем добавляем в него новые удобства;
   for (let index = 0; index < similarOffer.offer.features.length; index++) {
     const featureNewElement = document.createElement('li');
     featureNewElement.classList.add('popup__feature');
@@ -46,7 +32,8 @@ similarOffers.forEach((similarOffer) => {
 
   offerElement.querySelector('.popup__description').textContent = similarOffer.offer.description;
 
-  // Вывод фотографий
+  // Вывод фотографий;
+
   const photosBlock = offerElement.querySelector('.popup__photos');
   const photoElement = photosBlock.querySelector('.popup__photo');
   photosBlock.removeChild(photoElement);
@@ -57,7 +44,7 @@ similarOffers.forEach((similarOffer) => {
   }
   photosBlock.appendChild(fragment);
 
-  // Проверяем, если не хватает данных, например, отсутствует описание, то скрываем блок
+  // Проверяем, если не хватает данных, например, отсутствует описание, то скрываем блок;
   if (similarOffer.offer.description === '') {
     offerElement.querySelector('.popup__description').classList.add('hidden');
   }

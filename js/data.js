@@ -1,13 +1,20 @@
 // модуль, который создаёт данные;
-// Модуль создания и работы с похожими объявлениями
+// Модуль создания и работы с похожими объявлениями;
 import {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
   getRandomArrayElement
 } from './util.js';
 
-// Фиксированные значения
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+// Фиксированные значения;
+const TYPES = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
+
 const TITLES = [
   'Уютная квартирка с видом на старую площадь',
   'Дом в викторианском стиле с настоящим дворецким',
@@ -31,9 +38,9 @@ const FEATURES = [
   'conditioner',
 ];
 const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/randomIdxavascript-1/keksobooking/duonguyen-8LrGtIxxa4w.randomIdxpg',
-  'https://assets.htmlacademy.ru/content/intensive/randomIdxavascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.randomIdxpg',
-  'https://assets.htmlacademy.ru/content/intensive/randomIdxavascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.randomIdxpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 const AVATARS = [
   'img/avatars/user01.png',
@@ -46,9 +53,9 @@ const AVATARS = [
   'img/avatars/user08.png',
 ];
 
-const SIMILAR_OFFER_COUNT = 4;
+const SIMILAR_OFFER_COUNT = 1;
 
-// Создание массива похожих объявлений
+// Создание массива похожих объявлений;
 const creatOffer = () => {
   const COORDINATES = {
     lat: getRandomPositiveFloat(35.65, 35.7, 5),
@@ -63,7 +70,7 @@ const creatOffer = () => {
       title: getRandomArrayElement(TITLES),
       address: `${COORDINATES.lat}, ${COORDINATES.lng}`,
       price: getRandomPositiveInteger(0, 10000),
-      type: getRandomArrayElement(TYPES),
+      type: getRandomArrayElement(Object.values(TYPES)),
       rooms: getRandomPositiveInteger(1, 10),
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(TIME_CHECK),
