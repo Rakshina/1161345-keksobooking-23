@@ -14,7 +14,22 @@ const adCapacitySelectOption = adCapacitySelect.querySelectorAll('option');
 const adRoomNumberSelect = offerForm.querySelector('#room_number');
 const adTimeInSelect = offerForm.querySelector('#timein');
 const adTimeOutSelect = offerForm.querySelector('#timeout');
-//const adTypeSelect = offerForm.querySelector('#type');
+const adTypeSelect = offerForm.querySelector('#type');
+
+const roomsValue = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
+
+const typePrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 // Неакивная форма
 const diactivateForm = () => {
@@ -66,19 +81,13 @@ offerPrice.addEventListener('input', () => {
 });
 
 // Валидация комнат;
-const RoomsValue = {
-  1: [1],
-  2: [1, 2],
-  3: [1, 2, 3],
-  100: [0],
-};
 
 const onRoomChange = (evt) => {
   adCapacitySelectOption.forEach((option) => {
     option.disabled = true;
   });
 
-  RoomsValue[evt.value].forEach((seatsAmount) => {
+  roomsValue[evt.value].forEach((seatsAmount) => {
     adCapacitySelectOption.forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -106,3 +115,8 @@ adTimeOutSelect.addEventListener('change', () => {
 export {diactivateForm, activateForm};
 
 // Валидация типа жилья;
+
+adTypeSelect.addEventListener('change', (evt) => {
+  offerPrice.setAttribute('placeholder', typePrice[evt.target.value]);
+  offerPrice.setAttribute('min', typePrice[evt.target.value]);
+});

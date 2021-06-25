@@ -3,7 +3,8 @@
 import {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
-  getRandomArrayElement
+  getRandomArrayElement,
+  getRandomFeatures
 } from './util.js';
 
 // Фиксированные значения;
@@ -75,9 +76,9 @@ const creatOffer = () => {
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(TIME_CHECK),
       checkout: getRandomArrayElement(TIME_CHECK),
-      features: (FEATURES),
+      features: getRandomFeatures (FEATURES),
       descriptions: getRandomArrayElement(DESCRIPTIONS),
-      photos: (PHOTOS),
+      photos: getRandomFeatures (PHOTOS),
       location: {
         lat: COORDINATES.lat,
         lng: COORDINATES.lng,
