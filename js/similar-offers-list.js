@@ -20,6 +20,7 @@ similarOffers.forEach((similarOffer) => {
   const featuresList = offerElement.querySelector('.popup__features');
   const fragment = document.createDocumentFragment();
   // Сначала очищаем список с удобствами
+  featuresList.innerHTML = '';
 
   // Затем добавляем в него новые удобства;
   for (let index = 0; index < similarOffer.offer.features.length; index++) {

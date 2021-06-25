@@ -75,9 +75,9 @@ const creatOffer = () => {
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(TIME_CHECK),
       checkout: getRandomArrayElement(TIME_CHECK),
-      features: getRandomArrayElement(FEATURES),
+      features: (FEATURES),
       descriptions: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomArrayElement(PHOTOS),
+      photos: (PHOTOS),
       location: {
         lat: COORDINATES.lat,
         lng: COORDINATES.lng,
