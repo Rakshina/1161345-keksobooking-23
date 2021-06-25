@@ -21,8 +21,15 @@ function getRandomPositiveFloat(min, max, digits = 1) {
 const getRandomArrayElement = (items) =>
   items[getRandomPositiveInteger(0, items.length - 1)];
 
+const getRandomFeatures = (items) => {
+  const randomIndex = getRandomPositiveInteger(0, items.length - 1);
+  const randomFeatures = items.slice(0, randomIndex + 1);
+  return randomFeatures;
+};
+
 export {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
-  getRandomArrayElement
+  getRandomArrayElement,
+  getRandomFeatures
 };

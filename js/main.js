@@ -1,3 +1,7 @@
-import {similarAdvertisement} from './data.js';
+import './similar-offers-list.js';
+import './form.js';
+import {diactivateForm, activateForm} from './form.js';
 
-similarAdvertisement.slice();
+diactivateForm();
+activateForm();
+//similarOffers.slice();
