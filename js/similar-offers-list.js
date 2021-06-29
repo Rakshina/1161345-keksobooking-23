@@ -21,7 +21,6 @@ similarOffers.forEach((similarOffer) => {
   const fragment = document.createDocumentFragment();
   // Сначала очищаем список с удобствами
   featuresList.innerHTML = '';
-
   // Затем добавляем в него новые удобства;
   for (let index = 0; index < similarOffer.offer.features.length; index++) {
     const featureNewElement = document.createElement('li');
