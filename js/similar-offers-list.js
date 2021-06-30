@@ -1,7 +1,7 @@
 import { createOffers } from './data.js';
 
 // Модуль, который будет отвечать за генерацию разметки похожих элементов;
-const mapCanvas = document.querySelector('#map-canvas');
+//const mapCanvas = document.querySelector('#map-canvas');
 const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const similarOffers = createOffers;
@@ -19,9 +19,7 @@ similarOffers.forEach((similarOffer) => {
   // Вывод доступных удобств;
   const featuresList = offerElement.querySelector('.popup__features');
   const fragment = document.createDocumentFragment();
-  // Сначала очищаем список с удобствами
   featuresList.innerHTML = '';
-  // Затем добавляем в него новые удобства;
   for (let index = 0; index < similarOffer.offer.features.length; index++) {
     const featureNewElement = document.createElement('li');
     featureNewElement.classList.add('popup__feature');
@@ -48,5 +46,5 @@ similarOffers.forEach((similarOffer) => {
   if (similarOffer.offer.description === '') {
     offerElement.querySelector('.popup__description').classList.add('hidden');
   }
-  mapCanvas.appendChild(offerElement);
+  //mapCanvas.appendChild(offerElement);
 });

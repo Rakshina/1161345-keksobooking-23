@@ -15,6 +15,7 @@ const adRoomNumberSelect = offerForm.querySelector('#room_number');
 const adTimeInSelect = offerForm.querySelector('#timein');
 const adTimeOutSelect = offerForm.querySelector('#timeout');
 const adTypeSelect = offerForm.querySelector('#type');
+const adAddress = offerForm.querySelector('#address');
 
 const roomsValue = {
   1: [1],
@@ -39,6 +40,8 @@ const diactivateForm = () => {
   mapFiltersFormElements.forEach((item) => item.setAttribute('disabled', 'disabled'));
   mapFiltersFormFeatures.setAttribute('disabled', 'disabled');
 };
+diactivateForm();
+
 
 // Активная форма;
 const activateForm = () => {
@@ -112,11 +115,11 @@ adTimeOutSelect.addEventListener('change', () => {
   adTimeInSelect.value = adTimeOutSelect.value;
 });
 
-export {diactivateForm, activateForm};
-
 // Валидация типа жилья;
 
 adTypeSelect.addEventListener('change', (evt) => {
   offerPrice.setAttribute('placeholder', typePrice[evt.target.value]);
   offerPrice.setAttribute('min', typePrice[evt.target.value]);
 });
+
+export { activateForm, diactivateForm, adAddress };
