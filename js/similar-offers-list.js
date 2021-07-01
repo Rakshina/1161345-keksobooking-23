@@ -12,7 +12,9 @@ const createCard = (similarOffer) => {
   offerElement.querySelector('.popup__text--capacity').textContent = `${similarOffer.offer.rooms} комнаты для ${similarOffer.offer.guests} гостей`;
   offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarOffer.offer.checkin}, выезд до ${similarOffer.offer.checkout}`;
   offerElement.querySelector('.popup__type').textContent = similarOffer.offer.type;
+  offerElement.querySelector('.popup__description').textContent = similarOffer.offer.description;
 
+ // Вывод доступных удобств;
   const featuresList = offerElement.querySelector('.popup__features');
   const fragment = document.createDocumentFragment();
   featuresList.innerHTML = '';
@@ -24,8 +26,9 @@ const createCard = (similarOffer) => {
   }
   featuresList.appendChild(fragment);
 
-  
   offerElement.querySelector('.popup__description').textContent = similarOffer.offer.description;
+
+  // Вывод фотографий;
 
   const photosBlock = offerElement.querySelector('.popup__photos');
   const photoElement = photosBlock.querySelector('.popup__photo');
@@ -37,6 +40,7 @@ const createCard = (similarOffer) => {
   }
   photosBlock.appendChild(fragment);
 
+  // Проверяем, если не хватает данных, например, отсутствует описание, то скрываем блок;
   if (similarOffer.offer.description === '') {
     offerElement.querySelector('.popup__description').classList.add('hidden');
   }
