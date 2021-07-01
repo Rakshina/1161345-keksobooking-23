@@ -1,31 +1,21 @@
-// Модуль работы с картой;
-import { createOffers } from './data.js';
-import {  activateForm, adAddress } from './form.js';
+import { activateForm } from './form.js';
+import { createCard } from './similar-offers-list.js';
 
-const InitialSettingMap = {
-  LAT: 35.681700,
-  LNG: 139.753891,
-  ZOOM: 10,
+const CENTER_TOKYO_COORDINATES = {
+  lat: 35.67500,
+  lng: 139.75000,
 };
 
-const MainMarkerSetting = {
-  WIDTH: 52,
-  HEIGHT: 52,
-  URL: './img/main-pin.svg',
-};
-
-const SimilarMarkerSetting = {
-  WIDTH: 40,
-  HEIGHT: 40,
-  URL: './img/pin.svg',
-};
+const addressInput = document.querySelector('#address');
 
 const map = L.map('map-canvas')
-  .on('load', activateForm)
+  .on('load', () => {
+    activateForm();
+  })
   .setView({
-    lat: InitialSettingMap.LAT,
-    lng: InitialSettingMap.LNG,
-  }, InitialSettingMap.ZOOM);
+    lat: CENTER_TOKYO_COORDINATES.lat,
+    lng: CENTER_TOKYO_COORDINATES.lng,
+  }, 12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -34,134 +24,61 @@ L.tileLayer(
   },
 ).addTo(map);
 
-// Главный маркет на карте;
-const mainMarkerIcon = L.icon(
+
+const mainIcon = L.icon(
   {
-    iconUrl: MainMarkerSetting.URL,
-    iconSize: [MainMarkerSetting.WIDTH, MainMarkerSetting.HEIGHT],
-    iconAnchor: [MainMarkerSetting.WIDTH / 2, MainMarkerSetting.HEIGHT],
+    iconUrl: 'img/main-pin.svg',
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
   },
 );
+
 const mainMarker = L.marker(
   {
-    lat: InitialSettingMap.LAT,
-    lng: InitialSettingMap.LNG,
+    lat: CENTER_TOKYO_COORDINATES.lat,
+    lng: CENTER_TOKYO_COORDINATES.lng,
   },
   {
     draggable: true,
-    icon: mainMarkerIcon,
+    icon: mainIcon,
   },
 );
 
 mainMarker.addTo(map);
 
-// Метки похожих объявлений;
+addressInput.value = `${mainMarker._latlng.lat.toFixed(5)}, ${mainMarker._latlng.lng.toFixed(5)}`;
 
-// Массив похожих объявлений;
-const renderSimilarOffersPins = (items) => {
-  const points = [];
-  items.forEach((item) => {
-    const point = {
-      src: item.author,
-      title: item.offer.title,
-      address: item.offer.address,
-      price: item.offer.price,
-      type: item.offer.type,
-      rooms: item.offer.rooms,
-      guests: item.offer.guests,
-      checkin: item.offer.checkin,
-      checkout: item.offer.checkout,
-      features: item.offer.features,
-      photos: item.offer.photos,
-      lat: item.location.lat,
-      lng: item.location.lng,
-      description: item.offer.description,
-    };
-    points.push(point);
-  });
-  return points;
-};
+mainMarker.on('moveend', (evt) => {
+  addressInput.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+});
 
-const similarOffers = createOffers;
+const markerGroup = L.layerGroup().addTo(map);
 
-const similarOffersPins = renderSimilarOffersPins(similarOffers);
+const createAdMarker = (dataAd) => {
 
-const createCustomPopup = (point) => {
-  const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const popupElement = popupTemplate.cloneNode(true);
-  popupElement.querySelector('.popup__avatar').src = point.author.avatar;
-  popupElement.querySelector('.popup__title').textContent = point.offer.title;
-  popupElement.querySelector('.popup__text--address').textContent = point.offer.address;
-  popupElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
-  popupElement.querySelector('.popup__text--capacity').textContent = `${point.offer.rooms} комнаты для ${point.offer.guests} гостей`;
-  popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${point.offer.checkin}, выезд до ${point.offer.checkout}`;
-  popupElement.querySelector('.popup__type').textContent = point.offer.type;
+  const { location } = dataAd;
 
-  const featuresList = popupElement.querySelector('.popup__features');
-  const fragment = document.createDocumentFragment();
-  featuresList.innerHTML = '';
-  for (let index = 0; index < point.features.length; index++) {
-    const featureNewElement = document.createElement('li');
-    featureNewElement.classList.add('popup__feature');
-    featureNewElement.classList.add(`popup__feature--${point.features[index]}`);
-    fragment.appendChild(featureNewElement);
-  }
-  featuresList.appendChild(fragment);
-
-  popupElement.querySelector('.popup__description').textContent = point.description;
-
-  const photosBlock = popupElement.querySelector('.popup__photos');
-  const photoElement = photosBlock.querySelector('.popup__photo');
-  photosBlock.removeChild(photoElement);
-  for (let index = 0; index < point.photos.length; index++) {
-    const photoNewElement = photoElement.cloneNode(true);
-    photoNewElement.src = point.photos[index];
-    fragment.appendChild(photoNewElement);
-  }
-  photosBlock.appendChild(fragment);
-
-  if (point.description === '') {
-    popupElement.querySelector('.popup__description').classList.add('hidden');
-  }
-
-  return popupElement;
-};
-
-similarOffersPins.forEach((similarOffer) => {
-  const {lat, lng} = similarOffer;
-
-  const icon = L.icon({
-    iconUrl: SimilarMarkerSetting.URL,
-    iconSize: [SimilarMarkerSetting.WIDTH, SimilarMarkerSetting.HEIGHT],
-    iconAnchor: [SimilarMarkerSetting.WIDTH / 2, SimilarMarkerSetting.HEIGHT],
+  const iconAd = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
   });
 
-  const marker = L.marker(
+  const markerAd = L.marker(
     {
-      lat,
-      lng,
+      lat: location.lat,
+      lng: location.lng,
     },
     {
-      icon,
+      icon: iconAd,
+    },
+    {
+      keepInView: true,
     },
   );
 
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCustomPopup(similarOffer),
-      {
-        keepInView: true,
-      },
-    );
-});
-
-// Добавляет координаты адресса в форму;
-const getMainMarkerCurrentPosition = (evt) => {
-  const currentLatitude = evt.target.getLatLng().lat.toFixed(5);
-  const currentLongitude = evt.target.getLatLng().lng.toFixed(5);
-
-  adAddress.value = `${currentLatitude}, ${currentLongitude}`;
+  markerAd.addTo(markerGroup).bindPopup(createCard(dataAd));
 };
 
-mainMarker.on('moveend', getMainMarkerCurrentPosition);
+
+export { createAdMarker };

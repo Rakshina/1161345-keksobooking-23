@@ -40,8 +40,6 @@ const diactivateForm = () => {
   mapFiltersFormElements.forEach((item) => item.setAttribute('disabled', 'disabled'));
   mapFiltersFormFeatures.setAttribute('disabled', 'disabled');
 };
-diactivateForm();
-
 
 // Активная форма;
 const activateForm = () => {

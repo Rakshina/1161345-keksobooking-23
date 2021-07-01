@@ -3,7 +3,8 @@
 import {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
-  getRandomArrayElement
+  getRandomArrayElement,
+  getRandomFeatures
 } from './util.js';
 
 // Фиксированные значения;
@@ -75,19 +76,15 @@ const creatOffer = () => {
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(TIME_CHECK),
       checkout: getRandomArrayElement(TIME_CHECK),
-      features: getRandomArrayElement(FEATURES),
+      features: getRandomFeatures(FEATURES),
       descriptions: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomArrayElement(PHOTOS),
-      location: {
-        lat: COORDINATES.lat,
-        lng: COORDINATES.lng,
-      },
+      photos: getRandomFeatures(PHOTOS),
+    },
+    location: {
+      lat: COORDINATES.lat,
+      lng: COORDINATES.lng,
     },
   };
 };
 
-const createOffers = new Array(SIMILAR_OFFER_COUNT)
-  .fill(null)
-  .map(() => creatOffer());
-
-export { createOffers };
+export { SIMILAR_OFFER_COUNT, creatOffer };
