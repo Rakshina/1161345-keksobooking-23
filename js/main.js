@@ -1,5 +1,7 @@
+import { SIMILAR_OFFER_COUNT, creatOffer } from './data.js';
+import { createAdMarker } from './map-test.js';
 import './form.js';
-import './map.js';
-//import './test.js';
 
+const createOffers = new Array(SIMILAR_OFFER_COUNT).fill(null).map(creatOffer);
 
+createOffers.forEach((dataAd) => createAdMarker(dataAd));

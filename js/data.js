@@ -78,16 +78,12 @@ const creatOffer = () => {
       features: getRandomArrayElement(FEATURES),
       descriptions: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArrayElement(PHOTOS),
-      location: {
-        lat: COORDINATES.lat,
-        lng: COORDINATES.lng,
-      },
+    },
+    location: {
+      lat: COORDINATES.lat,
+      lng: COORDINATES.lng,
     },
   };
 };
 
-const createOffers = new Array(SIMILAR_OFFER_COUNT)
-  .fill(null)
-  .map(() => creatOffer());
-
-export { createOffers };
+export { SIMILAR_OFFER_COUNT, creatOffer };
