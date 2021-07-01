@@ -1,7 +1,7 @@
 import { activateForm } from './form.js';
 import { createCard } from './similar-offers-list.js';
 
-const CENTER_TOKYO_COORDINATES = {
+const INITIAL_SETTING_MAP = {
   lat: 35.67500,
   lng: 139.75000,
 };
@@ -13,8 +13,8 @@ const map = L.map('map-canvas')
     activateForm();
   })
   .setView({
-    lat: CENTER_TOKYO_COORDINATES.lat,
-    lng: CENTER_TOKYO_COORDINATES.lng,
+    lat: INITIAL_SETTING_MAP .lat,
+    lng: INITIAL_SETTING_MAP .lng,
   }, 12);
 
 L.tileLayer(
@@ -35,8 +35,8 @@ const mainIcon = L.icon(
 
 const mainMarker = L.marker(
   {
-    lat: CENTER_TOKYO_COORDINATES.lat,
-    lng: CENTER_TOKYO_COORDINATES.lng,
+    lat: INITIAL_SETTING_MAP .lat,
+    lng: INITIAL_SETTING_MAP .lng,
   },
   {
     draggable: true,
