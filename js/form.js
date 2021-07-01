@@ -67,7 +67,7 @@ adTitle.addEventListener('input', () => {
 
 // Валидации цены;
 adPrice.addEventListener('input', () => {
-  const valueInput = adPrice.value;
+  const valueInput = parseInt(adPrice.value, 10);
   const minPrice = adPrice.getAttribute('min');
   const maxPrice = adPrice.getAttribute('max');
 
