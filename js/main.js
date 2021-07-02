@@ -1,7 +1,7 @@
-import './similar-offers-list.js';
+import { SIMILAR_OFFER_COUNT, creatOffer } from './data.js';
+import { createAdMarker } from './map.js';
 import './form.js';
-import {diactivateForm, activateForm} from './form.js';
 
-diactivateForm();
-activateForm();
-//similarOffers.slice();
+const createOffers = new Array(SIMILAR_OFFER_COUNT).fill(null).map(creatOffer);
+
+createOffers.forEach((dataAd) => createAdMarker(dataAd));

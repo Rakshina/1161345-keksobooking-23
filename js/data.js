@@ -54,7 +54,7 @@ const AVATARS = [
   'img/avatars/user08.png',
 ];
 
-const SIMILAR_OFFER_COUNT = 1;
+const SIMILAR_OFFER_COUNT = 4;
 
 // Создание массива похожих объявлений;
 const creatOffer = () => {
@@ -76,19 +76,15 @@ const creatOffer = () => {
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(TIME_CHECK),
       checkout: getRandomArrayElement(TIME_CHECK),
-      features: getRandomFeatures (FEATURES),
+      features: getRandomFeatures(FEATURES),
       descriptions: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomFeatures (PHOTOS),
-      location: {
-        lat: COORDINATES.lat,
-        lng: COORDINATES.lng,
-      },
+      photos: getRandomFeatures(PHOTOS),
+    },
+    location: {
+      lat: COORDINATES.lat,
+      lng: COORDINATES.lng,
     },
   };
 };
 
-const createOffers = new Array(SIMILAR_OFFER_COUNT)
-  .fill(null)
-  .map(() => creatOffer());
-
-export { createOffers };
+export { SIMILAR_OFFER_COUNT, creatOffer };
