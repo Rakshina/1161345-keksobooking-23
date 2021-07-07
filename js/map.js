@@ -1,9 +1,6 @@
-import { activateForm, dataUserFormSubmit, resetForm } from './form.js';
+import { activateForm } from './form.js';
 import { createCard } from './similar-offers-list.js';
-import {showAlert} from './util.js';
-import {getData} from './api.js';
 
-const resetButton = document.querySelector('.ad-form__reset');
 
 const INITIAL_SETTING_MAP = {
   lat: 35.67500,
@@ -50,11 +47,6 @@ const mainMarker = L.marker(
 
 const resetMarker = () => mainMarker.setLatLng({lat: 35.6894, lng: 139.692});
 
-resetButton.addEventListener('click', (evt) =>{
-  evt.preventDefault();
-  resetForm(resetMarker);
-});
-
 mainMarker.addTo(map);
 
 addressInput.value = `${mainMarker._latlng.lat.toFixed(5)}, ${mainMarker._latlng.lng.toFixed(5)}`;
@@ -91,8 +83,4 @@ const createAdMarker = (dataAd) => {
   markerAd.addTo(markerGroup).bindPopup(createCard(dataAd));
 };
 
-
-export { createAdMarker };
-
-getData(markerGroup, showAlert);
-dataUserFormSubmit(resetMarker);
+export { createAdMarker, resetMarker, markerGroup };

@@ -1,6 +1,6 @@
 // Модуль для работы с формой добавления объявления;
 import {isEscEvent} from './util.js';
-import {sendData} from './api.js';
+import {sendData } from './api.js';
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
@@ -136,6 +136,7 @@ const createMessage = (message) => {
   };
 
   const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
+
   const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
 
   openMessage();
@@ -148,23 +149,22 @@ const createMessage = (message) => {
 };
 
 const resetForm = (resetMarker) => {
-  offerForm .reset();
+  offerForm.reset();
   mapFiltersForm.reset();
   onRoomChange(adRoomNumberSelect);
   resetMarker();
 };
 
 const dataUserFormSubmit = (onSuccess) => {
-  offerForm .addEventListener('submit', (evt) => {
+  offerForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     sendData(
-      () => {resetForm(onSuccess); createMessage('success');},
+      () => {onSuccess(); createMessage('success');},
       () => createMessage('error'),
       new FormData(evt.target),
     );
   });
 };
 
-
-export { activateForm, diactivateForm, adAddress, dataUserFormSubmit, resetForm };
+export { activateForm, diactivateForm, adAddress, resetForm, dataUserFormSubmit };

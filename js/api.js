@@ -1,9 +1,9 @@
+import {showAlert} from './util.js';
+
 const getData = (onSuccess) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((ad) => {
-      onSuccess(ad);
-    });
+    .then((responce) => (responce.ok) ? responce.json() : showAlert('Не удалось загрузить данные'))
+    .then(onSuccess);
 };
 
 const sendData = (onSuccess, onFail, body) => {
@@ -18,13 +18,12 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail();
     });
 };
 
 export {getData, sendData};
-
