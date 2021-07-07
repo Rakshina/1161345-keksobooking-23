@@ -1,27 +1,20 @@
 //import { SIMILAR_OFFER_COUNT, creatOffer } from './data.js';
-import { createAdMarker, resetMarker, markerGroup } from './map.js';
-import  { resetForm, dataUserFormSubmit } from './form.js';
-import {getData} from './api.js';
+import './map.js';
+import './util.js';
+import './filters.js';
+import './popup.js';
+import './api.js';
+import './form.js';
+import './similar-offers-list.js';
+import { renderPins } from './similar-offers-list.js';
+import { getData, sendData } from './api.js';
+import { openSuccessPopup, openErrorPopup } from './popup.js';
 
-// const createOffers = new Array(SIMILAR_OFFER_COUNT).fill(null).map(creatOffer);
+const SIMILAR_OFFER_COUNT = 10;
 
-// createOffers.forEach((dataAd) => createAdMarker(dataAd));
 
-const adResetButton = document.querySelector('.ad-form__reset');
-
-getData((dataAd) => {
-  createAdMarker(dataAd);
-
-  adResetButton.addEventListener('click', (evt) =>{
-    evt.preventDefault();
-    resetForm(resetMarker);
-    markerGroup.clearLayers();
-    createAdMarker(dataAd);
-  });
-
-  dataUserFormSubmit(() =>{
-    resetForm(resetMarker);
-    markerGroup.clearLayers();
-    createAdMarker(dataAd);
-  });
+getData((offers) => {
+  renderPins(offers.slice(0, SIMILAR_OFFER_COUNT));
 });
+
+sendData(openSuccessPopup, openErrorPopup);

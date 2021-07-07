@@ -1,14 +1,10 @@
 // Модуль для работы с формой добавления объявления;
-import {isEscEvent} from './util.js';
-import {sendData } from './api.js';
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
 const offerForm = document.querySelector('.ad-form');
 const adFormElement = offerForm.querySelectorAll('.ad-form__element');
-const mapFiltersForm = document.querySelector('.map__filters');
-const mapFiltersFormElements = mapFiltersForm.querySelectorAll('.map__filter');
-const mapFiltersFormFeatures = mapFiltersForm.querySelector('.map__features');
+const resetFormButton = offerForm.querySelector('.ad-form__reset');
 const adTitle = offerForm.querySelector('#title');
 const adPrice = offerForm.querySelector('#price');
 const adCapacitySelect = offerForm.querySelector('#capacity');
@@ -32,24 +28,6 @@ const typePrice = {
   hotel: 3000,
   house: 5000,
   palace: 10000,
-};
-
-// Неакивная форма
-const diactivateForm = () => {
-  offerForm.classList.add('ad-form--disabled');
-  adFormElement.forEach((item) => item.setAttribute('disabled', 'disabled'));
-  mapFiltersForm.classList.add('ad-form--disabled');
-  mapFiltersFormElements.forEach((item) => item.setAttribute('disabled', 'disabled'));
-  mapFiltersFormFeatures.setAttribute('disabled', 'disabled');
-};
-
-// Активная форма;
-const activateForm = () => {
-  offerForm.classList.remove('ad-form--disabled');
-  adFormElement.forEach((item) => item.removeAttribute('disabled', null));
-  mapFiltersForm.classList.remove('ad-form--disabled');
-  mapFiltersFormElements.forEach((item) => item.removeAttribute('disabled', null));
-  mapFiltersFormFeatures.removeAttribute('disabled', null);
 };
 
 // Валидации заголовка;
@@ -122,49 +100,4 @@ adTypeSelect.addEventListener('change', (evt) => {
   adPrice.setAttribute('min', typePrice[evt.target.value]);
 });
 
-const createMessage = (message) => {
-  const messageTemplate = document.querySelector(`#${message}`).content.querySelector(`.${message}`);
-  const element = messageTemplate.cloneNode(true);
-  document.body.appendChild(element);
-
-  const onMessageEscKeyDown = (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      element.remove();
-      //closeMessage();
-    }
-  };
-
-  const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
-
-  const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
-
-  openMessage();
-
-  element.addEventListener('click', () => {
-    element.remove();
-    closeMessage();
-  });
-
-};
-
-const resetForm = (resetMarker) => {
-  offerForm.reset();
-  mapFiltersForm.reset();
-  onRoomChange(adRoomNumberSelect);
-  resetMarker();
-};
-
-const dataUserFormSubmit = (onSuccess) => {
-  offerForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    sendData(
-      () => {onSuccess(); createMessage('success');},
-      () => createMessage('error'),
-      new FormData(evt.target),
-    );
-  });
-};
-
-export { activateForm, diactivateForm, adAddress, resetForm, dataUserFormSubmit };
+export { adFormElement, offerForm, adTitle, adPrice, resetFormButton, adAddress };
