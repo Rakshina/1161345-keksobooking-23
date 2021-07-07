@@ -1,6 +1,5 @@
 // Модуль, который будет отвечать за генерацию разметки похожих элементов;
 
-
 const createCard = (similarOffer) => {
   const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerElement = similarAdTemplate.cloneNode(true);

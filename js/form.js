@@ -1,4 +1,6 @@
 // Модуль для работы с формой добавления объявления;
+import {isEscEvent} from './util.js';
+import {sendData} from './api.js';
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
@@ -120,4 +122,49 @@ adTypeSelect.addEventListener('change', (evt) => {
   adPrice.setAttribute('min', typePrice[evt.target.value]);
 });
 
-export { activateForm, diactivateForm, adAddress };
+const createMessage = (message) => {
+  const messageTemplate = document.querySelector(`#${message}`).content.querySelector(`.${message}`);
+  const element = messageTemplate.cloneNode(true);
+  document.body.appendChild(element);
+
+  const onMessageEscKeyDown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      element.remove();
+      //closeMessage();
+    }
+  };
+
+  const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
+  const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
+
+  openMessage();
+
+  element.addEventListener('click', () => {
+    element.remove();
+    closeMessage();
+  });
+
+};
+
+const resetForm = (resetMarker) => {
+  offerForm .reset();
+  mapFiltersForm.reset();
+  onRoomChange(adRoomNumberSelect);
+  resetMarker();
+};
+
+const dataUserFormSubmit = (onSuccess) => {
+  offerForm .addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => {resetForm(onSuccess); createMessage('success');},
+      () => createMessage('error'),
+      new FormData(evt.target),
+    );
+  });
+};
+
+
+export { activateForm, diactivateForm, adAddress, dataUserFormSubmit, resetForm };
