@@ -1,28 +1,10 @@
 // Модуль, который будет отвечать за генерацию разметки похожих элементов;
-import { map } from './map.js';
-
-const renderSimilarOffersPins = (items) => {
-  const points = [];
-  items.forEach((item) => {
-    const point = {
-      src: item.author.avatar,
-      title: item.offer.title,
-      address: item.offer.address,
-      price: item.offer.price,
-      type: item.offer.type,
-      rooms: item.offer.rooms,
-      guests: item.offer.guests,
-      checkin: item.offer.checkin,
-      checkout: item.offer.checkout,
-      features: item.offer.features,
-      photos: item.offer.photos,
-      lat: item.location.lat,
-      lng: item.location.lng,
-      description: item.offer.description,
-    };
-    points.push(point);
-  });
-  return points;
+const TYPES = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
 };
 
 const createCard = (similarOffer) => {
@@ -34,13 +16,12 @@ const createCard = (similarOffer) => {
   offerElement.querySelector('.popup__text--price').textContent = `${similarOffer.offer.price} ₽/ночь`;
   offerElement.querySelector('.popup__text--capacity').textContent = `${similarOffer.offer.rooms} комнаты для ${similarOffer.offer.guests} гостей`;
   offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarOffer.offer.checkin}, выезд до ${similarOffer.offer.checkout}`;
-  offerElement.querySelector('.popup__type').textContent = similarOffer.offer.type;
+  offerElement.querySelector('.popup__type').textContent = TYPES[similarOffer.offer.type];
   offerElement.querySelector('.popup__description').textContent = similarOffer.offer.description;
-
-  const fragment = document.createDocumentFragment();
 
   // Вывод доступных удобств;
   const featuresList = offerElement.querySelector('.popup__features');
+  const fragment = document.createDocumentFragment();
   featuresList.innerHTML = '';
   for (let index = 0; index < similarOffer.offer.features.length; index++) {
     const featureNewElement = document.createElement('li');
@@ -71,36 +52,4 @@ const createCard = (similarOffer) => {
   return offerElement;
 };
 
-const renderPins = (similarOffer) => {
-  const similarOffersPins = renderSimilarOffersPins(similarOffer);
-
-  similarOffersPins.forEach((similarOfferElement) => {
-    const {lat, lng} = similarOfferElement;
-
-    const icon = L.icon({
-      iconUrl: './img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
-
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon,
-      },
-    );
-    marker
-      .addTo(map)
-      .bindPopup(
-        createCard(similarOfferElement),
-        {
-          keepInView: true,
-        },
-      );
-  });
-};
-
-export { renderPins };
+export { createCard };

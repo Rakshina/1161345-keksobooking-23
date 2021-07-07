@@ -1,28 +1,16 @@
-import { offerForm, adFormElement, resetFormButton, adAddress } from './form.js';
-import { mapFilters, mapFiltersElements } from './filters.js';
-
-const ZOOM = 10;
+import { activateForm } from './form.js';
+import { createCard } from './similar-offers-list.js';
 
 const INITIAL_SETTING_MAP = {
   lat: 35.67500,
   lng: 139.75000,
 };
 
-const activatePage = () => {
-  offerForm.classList.remove('ad-form--disabled');
-  adFormElement.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-};
+const addressInput = document.querySelector('#address');
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    activatePage();
+    activateForm();
   })
   .setView({
     lat: INITIAL_SETTING_MAP .lat,
@@ -58,47 +46,57 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-// Установка в поле адреса начальных координат маркера
-const setMainMarkerInitialPosition = () => {
-  adAddress.value = `${mainMarker._latlng.lat}, ${mainMarker._latlng.lng}`;
-};
+addressInput.value = `${mainMarker._latlng.lat.toFixed(5)}, ${mainMarker._latlng.lng.toFixed(5)}`;
 
-setMainMarkerInitialPosition();
-
-// Получение текущей позиции маркера и установка в поле адреса
-const getMainMarkerCurrentPosition = (evt) => {
-  const currentLatitude = evt.target.getLatLng().lat.toFixed(5);
-  const currentLongitude = evt.target.getLatLng().lng.toFixed(5);
-
-  adAddress.value = `${currentLatitude}, ${currentLongitude}`;
-};
-
-mainMarker.on('moveend', getMainMarkerCurrentPosition);
-
-// Сброс позиции маркера и карты
-const resetMapPosition = () => {
-  mainMarker.setLatLng({
-    lat: INITIAL_SETTING_MAP.LAT,
-    lng: INITIAL_SETTING_MAP.LNG,
-  });
-  map.setView({
-    lat: INITIAL_SETTING_MAP.LAT,
-    lng: INITIAL_SETTING_MAP.LNG,
-  }, ZOOM);
-};
-
-const resetPage = () => {
-  offerForm.reset();
-  resetMapPosition();
-  mapFilters.reset();
-  setMainMarkerInitialPosition();
-};
-
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetPage();
-  resetMapPosition();
-  setMainMarkerInitialPosition();
+mainMarker.on('moveend', (evt) => {
+  addressInput.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
-export { map, INITIAL_SETTING_MAP, resetPage, resetMapPosition };
+const markerGroup = L.layerGroup().addTo(map);
+
+const createAdMarker = (dataAd) => {
+
+  const { location } = dataAd;
+
+  const iconAd = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const markerAd = L.marker(
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
+    {
+      icon: iconAd,
+    },
+    {
+      keepInView: true,
+    },
+  );
+
+  markerAd.addTo(markerGroup).bindPopup(createCard(dataAd));
+};
+
+const createMarkersGroup = (similarAds) => {
+  similarAds.forEach((dataAd) => {
+    createAdMarker(dataAd);
+  });
+};
+
+const resetDataMap = () => {
+  map.setView(
+    INITIAL_SETTING_MAP,
+    12);
+
+  mainMarker.setLatLng(
+    INITIAL_SETTING_MAP,
+  );
+
+  addressInput.value = `${INITIAL_SETTING_MAP.lat.toFixed(5)}, ${INITIAL_SETTING_MAP.lng.toFixed(5)}`;
+};
+
+
+export { createAdMarker, resetDataMap, createMarkersGroup };

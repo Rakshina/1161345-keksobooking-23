@@ -1,47 +1,45 @@
-import { showAlert } from './util.js';
-import { resetPage } from './map.js';
-import { offerForm } from './form.js';
+import { clearForm } from './form.js';
+import { showPopupGetError } from './popup.js';
+
+const GET_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/data';
+const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking';
 
 const getData = (onSuccess) => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
+  fetch(GET_DATA_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
       }
+      throw new Error(`${response.status} — ${response.statusText}`);
     })
-    .then((offers) => {
-      onSuccess(offers);
+    .then((ads) => {
+      onSuccess(ads);
     })
-    .catch(() => {
-      showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+    .catch((error) => {
+      showPopupGetError(`При загрузке данных произошла ошибка: "${error}"`);
     });
 };
 
-const sendData = (onSuccess, onFail) => {
-  offerForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const formData = new FormData(evt.target);
-
-    fetch(
-      'https://23.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          onSuccess();
-          resetPage();
-        } else {
-          onFail();
-        }
-      })
-      .catch(() => onFail());
-  });
+const sendData = (onSuccess, onFail, body) => {
+  fetch(
+    SEND_DATA_URL,
+    {
+      method: 'POST',
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+        clearForm();
+      } else {
+        throw new Error(`${response.status} - ${response.statusText}`);
+      }
+    })
+    .catch(() => {
+      onFail();
+    });
 };
+
 
 export { getData, sendData };
