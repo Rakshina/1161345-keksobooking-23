@@ -124,7 +124,7 @@ adTypeSelect.addEventListener('change', (evt) => {
 });
 
 const clearForm = () => {
-  mapFiltersForm .reset();
+  mapFiltersForm.reset();
   offerForm .reset();
   resetDataMap();
 };
@@ -133,7 +133,7 @@ resetButton.addEventListener('click', (evt) => {
   clearForm();
 });
 
-offerForm .addEventListener('submit', (evt) => {
+offerForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
 
