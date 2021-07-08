@@ -80,5 +80,23 @@ const createAdMarker = (dataAd) => {
   markerAd.addTo(markerGroup).bindPopup(createCard(dataAd));
 };
 
+const createMarkersGroup = (similarAds) => {
+  similarAds.forEach((dataAd) => {
+    createAdMarker(dataAd);
+  });
+};
 
-export { createAdMarker };
+const resetDataMap = () => {
+  map.setView(
+    INITIAL_SETTING_MAP,
+    12);
+
+  mainMarker.setLatLng(
+    INITIAL_SETTING_MAP,
+  );
+
+  addressInput.value = `${INITIAL_SETTING_MAP.lat.toFixed(5)}, ${INITIAL_SETTING_MAP.lng.toFixed(5)}`;
+};
+
+
+export { createAdMarker, resetDataMap, createMarkersGroup };

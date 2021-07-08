@@ -1,4 +1,7 @@
 // Модуль для работы с формой добавления объявления;
+import { resetDataMap } from './map.js';
+import { sendData } from './api.js';
+import { showPopupSendSuccess, showPopupSendError } from './popup.js';
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
@@ -15,7 +18,7 @@ const adRoomNumberSelect = offerForm.querySelector('#room_number');
 const adTimeInSelect = offerForm.querySelector('#timein');
 const adTimeOutSelect = offerForm.querySelector('#timeout');
 const adTypeSelect = offerForm.querySelector('#type');
-const adAddress = offerForm.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const roomsValue = {
   1: [1],
@@ -120,4 +123,21 @@ adTypeSelect.addEventListener('change', (evt) => {
   adPrice.setAttribute('min', typePrice[evt.target.value]);
 });
 
-export { activateForm, diactivateForm, adAddress };
+const clearForm = () => {
+  mapFiltersForm.reset();
+  offerForm .reset();
+  resetDataMap();
+};
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  clearForm();
+});
+
+offerForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+
+  sendData(showPopupSendSuccess, showPopupSendError, formData);
+});
+
+export { activateForm, diactivateForm, clearForm };

@@ -1,7 +1,10 @@
-import { SIMILAR_OFFER_COUNT, creatOffer } from './data.js';
-import { createAdMarker } from './map.js';
+import './map.js';
 import './form.js';
+import './similar-offers-list.js';
+import { createMarkersGroup } from './map.js';
+import { getData } from './api.js';
 
-const createOffers = new Array(SIMILAR_OFFER_COUNT).fill(null).map(creatOffer);
-
-createOffers.forEach((dataAd) => createAdMarker(dataAd));
+const SIMILAR_AD_COUNT = 10;
+getData((ads) => {
+  createMarkersGroup(ads.slice(0, SIMILAR_AD_COUNT));
+});
