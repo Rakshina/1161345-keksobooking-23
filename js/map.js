@@ -114,3 +114,4 @@ const resetDataMap = () => {
 };
 
 export { resetDataMap, markerGroup, createMarkersGroup };
+
