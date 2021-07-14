@@ -140,4 +140,4 @@ offerForm.addEventListener('submit', (evt) => {
   sendData(showPopupSendSuccess, showPopupSendError, formData);
 });
 
-export { activateForm, diactivateForm, clearForm };
+export { activateForm, diactivateForm, clearForm, mapFiltersForm };

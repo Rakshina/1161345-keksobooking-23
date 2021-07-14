@@ -1,5 +1,8 @@
 import { activateForm } from './form.js';
 import { createCard } from './similar-offers-list.js';
+import { getData } from './api.js';
+import { showPopupGetError } from './popup.js';
+import { onFilter, addFilters, MAX_NUM_ADS } from './filters.js';
 
 const INITIAL_SETTING_MAP = {
   lat: 35.67500,
@@ -8,22 +11,7 @@ const INITIAL_SETTING_MAP = {
 
 const addressInput = document.querySelector('#address');
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    activateForm();
-  })
-  .setView({
-    lat: INITIAL_SETTING_MAP .lat,
-    lng: INITIAL_SETTING_MAP .lng,
-  }, 12);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
+const map = L.map('map-canvas');
 
 const mainIcon = L.icon(
   {
@@ -35,8 +23,8 @@ const mainIcon = L.icon(
 
 const mainMarker = L.marker(
   {
-    lat: INITIAL_SETTING_MAP .lat,
-    lng: INITIAL_SETTING_MAP .lng,
+    lat: INITIAL_SETTING_MAP.lat,
+    lng: INITIAL_SETTING_MAP.lng,
   },
   {
     draggable: true,
@@ -86,7 +74,32 @@ const createMarkersGroup = (similarAds) => {
   });
 };
 
+map
+  .on('load', () => {
+    activateForm();
+    getData(
+      (ads) => {
+        onFilter(ads);
+        addFilters(ads);
+      },
+      showPopupGetError,
+    );
+  })
+  .setView({
+    lat: INITIAL_SETTING_MAP.lat,
+    lng: INITIAL_SETTING_MAP.lng,
+  }, 12);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
 const resetDataMap = () => {
+  markerGroup.clearLayers();
+
   map.setView(
     INITIAL_SETTING_MAP,
     12);
@@ -96,7 +109,9 @@ const resetDataMap = () => {
   );
 
   addressInput.value = `${INITIAL_SETTING_MAP.lat.toFixed(5)}, ${INITIAL_SETTING_MAP.lng.toFixed(5)}`;
+
+  getData((ads) => createMarkersGroup(ads.slice(0, MAX_NUM_ADS)));
 };
 
+export { resetDataMap, markerGroup, createMarkersGroup };
 
-export { createAdMarker, resetDataMap, createMarkersGroup };
