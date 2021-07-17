@@ -32,14 +32,6 @@ const mainMarker = L.marker(
   },
 );
 
-mainMarker.addTo(map);
-
-addressInput.value = `${mainMarker._latlng.lat.toFixed(5)}, ${mainMarker._latlng.lng.toFixed(5)}`;
-
-mainMarker.on('moveend', (evt) => {
-  addressInput.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-});
-
 const markerGroup = L.layerGroup().addTo(map);
 
 const createAdMarker = (dataAd) => {
@@ -74,6 +66,22 @@ const createMarkersGroup = (similarAds) => {
   });
 };
 
+const resetDataMap = () => {
+  markerGroup.clearLayers();
+
+  map.setView(
+    INITIAL_SETTING_MAP,
+    12);
+
+  mainMarker.setLatLng(
+    INITIAL_SETTING_MAP,
+  );
+
+  addressInput.value = `${INITIAL_SETTING_MAP.lat.toFixed(5)}, ${INITIAL_SETTING_MAP.lng.toFixed(5)}`;
+
+  getData((ads) => createMarkersGroup(ads.slice(0, MAX_NUM_ADS)));
+};
+
 map
   .on('load', () => {
     activateForm();
@@ -97,21 +105,13 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const resetDataMap = () => {
-  markerGroup.clearLayers();
+mainMarker.addTo(map);
 
-  map.setView(
-    INITIAL_SETTING_MAP,
-    12);
+addressInput.value = `${mainMarker._latlng.lat.toFixed(5)}, ${mainMarker._latlng.lng.toFixed(5)}`;
 
-  mainMarker.setLatLng(
-    INITIAL_SETTING_MAP,
-  );
-
-  addressInput.value = `${INITIAL_SETTING_MAP.lat.toFixed(5)}, ${INITIAL_SETTING_MAP.lng.toFixed(5)}`;
-
-  getData((ads) => createMarkersGroup(ads.slice(0, MAX_NUM_ADS)));
-};
+mainMarker.on('moveend', (evt) => {
+  addressInput.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+});
 
 export { resetDataMap, markerGroup, createMarkersGroup };
 

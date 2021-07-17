@@ -2,7 +2,7 @@ import { debounce } from './util.js';
 import { markerGroup, createMarkersGroup } from './map.js';
 
 const MAX_NUM_ADS = 10;
-const DEFAUL_VALUE = 'any';
+const DEFAULT_FILTER_VALUE = 'any';
 const PRICES_VALUE = {
   low: 'low',
   middle: 'middle',
@@ -22,16 +22,16 @@ const housingFeatures = mapFilters.querySelectorAll('.map__checkbox');
 
 const onFilter = (ads) => {
   const filteredAds = ads.filter((ad) => {
-    if (housingType.value !== DEFAUL_VALUE && ad.offer.type !== housingType.value) {
+    if (housingType.value !== DEFAULT_FILTER_VALUE && ad.offer.type !== housingType.value) {
       return false;
     }
-    if (housingRooms.value !== DEFAUL_VALUE && ad.offer.rooms !== Number(housingRooms.value)) {
+    if (housingRooms.value !== DEFAULT_FILTER_VALUE && ad.offer.rooms !== Number(housingRooms.value)) {
       return false;
     }
-    if (housingGuests.value !== DEFAUL_VALUE && ad.offer.guests !== Number(housingGuests.value)) {
+    if (housingGuests.value !== DEFAULT_FILTER_VALUE && ad.offer.guests !== Number(housingGuests.value)) {
       return false;
     }
-    if (housingPrice.value !== DEFAUL_VALUE) {
+    if (housingPrice.value !== DEFAULT_FILTER_VALUE) {
       if (housingPrice.value === PRICES_VALUE.middle && (ad.offer.price < PRICES_RANGE.low || ad.offer.price > PRICES_RANGE.high)) {
         return false;
       }
