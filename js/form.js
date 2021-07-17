@@ -20,14 +20,14 @@ const adTimeOutSelect = offerForm.querySelector('#timeout');
 const adTypeSelect = offerForm.querySelector('#type');
 const resetButton = document.querySelector('.ad-form__reset');
 
-const roomsValue = {
+const RoomsValue = {
   1: [1],
   2: [1, 2],
   3: [1, 2, 3],
   100: [0],
 };
 
-const typePrice = {
+const TypePrice = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -91,7 +91,7 @@ const onRoomChange = (evt) => {
     option.disabled = true;
   });
 
-  roomsValue[evt.value].forEach((seatsAmount) => {
+  RoomsValue[evt.value].forEach((seatsAmount) => {
     adCapacitySelectOption.forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -119,8 +119,8 @@ adTimeOutSelect.addEventListener('change', () => {
 // Валидация типа жилья;
 
 adTypeSelect.addEventListener('change', (evt) => {
-  adPrice.setAttribute('placeholder', typePrice[evt.target.value]);
-  adPrice.setAttribute('min', typePrice[evt.target.value]);
+  adPrice.setAttribute('placeholder', TypePrice[evt.target.value]);
+  adPrice.setAttribute('min', TypePrice[evt.target.value]);
 });
 
 const clearForm = () => {
