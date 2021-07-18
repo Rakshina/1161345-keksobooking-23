@@ -35,15 +35,6 @@ const TypePrice = {
   palace: 10000,
 };
 
-// Неакивная форма
-const diactivateForm = () => {
-  offerForm.classList.add('ad-form--disabled');
-  adFormElement.forEach((item) => item.setAttribute('disabled', 'disabled'));
-  mapFiltersForm.classList.add('ad-form--disabled');
-  mapFiltersFormElements.forEach((item) => item.setAttribute('disabled', 'disabled'));
-  mapFiltersFormFeatures.setAttribute('disabled', 'disabled');
-};
-
 // Активная форма;
 const activateForm = () => {
   offerForm.classList.remove('ad-form--disabled');
@@ -140,4 +131,4 @@ offerForm.addEventListener('submit', (evt) => {
   sendData(showPopupSendSuccess, showPopupSendError, formData);
 });
 
-export { activateForm, diactivateForm, clearForm, mapFiltersForm };
+export { activateForm, clearForm, mapFiltersForm };
